@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://cen0q4ur46sr5"]
+
+[ext_resource type="Texture2D" uid="uid://bmlr86xn8y7g1" path="res://assets/tempShip.png" id="1_2bptq"]
+[ext_resource type="Script" path="res://scripts/ship.gd" id="1_pubur"]
+[ext_resource type="PackedScene" uid="uid://ceohvi0bhju6k" path="res://scenes/thruster.tscn" id="3_3yb2i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8agi"]
+size = Vector2(91, 44.1633)
+
+[node name="Ship" type="RigidBody2D"]
+gravity_scale = 0.0
+script = ExtResource("1_pubur")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -3.14159
+texture = ExtResource("1_2bptq")
+
+[node name="Thruster" parent="." instance=ExtResource("3_3yb2i")]
+position = Vector2(0, 44)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 1.28001)
+scale = Vector2(1, 1.96)
+shape = SubResource("RectangleShape2D_m8agi")
+
+[connection signal="thrusting" from="Thruster" to="." method="_on_thruster_thrusting"]
