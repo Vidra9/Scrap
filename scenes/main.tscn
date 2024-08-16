@@ -1,14 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://biyun1053onpb"]
+[gd_scene load_steps=4 format=3 uid="uid://biyun1053onpb"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ekicg"]
 [ext_resource type="PackedScene" uid="uid://cen0q4ur46sr5" path="res://scenes/player.tscn" id="1_hp3tu"]
+[ext_resource type="PackedScene" uid="uid://btrs1yb00nrv2" path="res://scenes/debree.tscn" id="3_d3u0x"]
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_ekicg")
-
-[node name="Player" parent="." instance=ExtResource("1_hp3tu")]
-position = Vector2(584, 304)
+player_scene = ExtResource("1_hp3tu")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(579, 322)
 metadata/_edit_lock_ = true
+
+[node name="Debree" parent="." instance=ExtResource("3_d3u0x")]
+position = Vector2(253, 123)
+input_pickable = false
+
+[node name="Debree2" parent="." instance=ExtResource("3_d3u0x")]
+position = Vector2(181, 352)
+
+[node name="SpawnPosition" type="Marker2D" parent="."]
+position = Vector2(580, 320)

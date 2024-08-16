@@ -26,13 +26,4 @@ position = Vector2(0.5, 1.28001)
 scale = Vector2(1, 1.96)
 shape = SubResource("RectangleShape2D_m8agi")
 
-[node name="PickupArea" type="Area2D" parent="." groups=["ship_parts"]]
-
-[node name="PickupCollider" type="CollisionShape2D" parent="PickupArea"]
-position = Vector2(0.5, 1.28001)
-scale = Vector2(0.794697, 1.60587)
-shape = SubResource("RectangleShape2D_m8agi")
-debug_color = Color(4.33177e-07, 0.636687, 0.40175, 0.42)
-
 [connection signal="thrusting" from="Thruster" to="." method="_on_thruster_thrusting"]
-[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]
