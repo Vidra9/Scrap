@@ -1,7 +1,7 @@
 extends Resource
 
-var node_leading_to_ship : Resource
-var other_connection : Resource
+@export var node_leading_to_ship : Resource
+@export var other_connection : Resource
 
 func _init(p_node_leading_to_ship = null, p_other_connection = null):
 	node_leading_to_ship = p_node_leading_to_ship
