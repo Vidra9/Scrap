@@ -4,7 +4,7 @@ extends RigidBody2D
 @export var thrustForce = 200
 @export var mu_moving = 0.5
 @export var mu_static = 0.8  # friction coefficients
-var thrusting = false
+var thrusting = 0
 var rotation_dir = 0
 
 var applied_forces = Vector2.ZERO
@@ -21,7 +21,7 @@ func add_force_for_frame(force: Vector2):
 func _ready() -> void:
 	Global.debree_list.append(self)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	var rotating = false
 	var thrust = Vector2.ZERO
 	if Input.is_action_pressed("left"):
@@ -33,8 +33,8 @@ func _physics_process(delta: float) -> void:
 		rotation_dir = 1
 		rotating = true
 		
-	if thrusting:
-		thrust = Vector2(sin(rotation), -cos(rotation)) * thrustForce
+	if thrusting != 0:
+		thrust = Vector2(sin(rotation), -cos(rotation)) * thrustForce * thrusting
 		
 	#var rotation_dir = Vector2(sin(rotation), -cos(rotation))
 	constant_force = thrust
@@ -43,8 +43,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		constant_torque = 0
 
-func _on_thruster_thrusting(is_thrusting: Variant) -> void:
-	thrusting = is_thrusting # Replace with function body.
+func _on_thruster_thrusting(thrust_direcion: Variant) -> void:
+	thrusting = thrust_direcion # Replace with function body.
 
 
 func _on_pickup_area_area_entered(area: Area2D) -> void:

@@ -14,7 +14,6 @@ metadata/_edit_lock_ = true
 
 [node name="Debree" parent="." instance=ExtResource("3_d3u0x")]
 position = Vector2(253, 123)
-input_pickable = false
 
 [node name="Debree2" parent="." instance=ExtResource("3_d3u0x")]
 position = Vector2(181, 352)
