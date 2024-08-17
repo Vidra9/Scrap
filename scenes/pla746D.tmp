@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://cen0q4ur46sr5"]
+
+[ext_resource type="Texture2D" uid="uid://bmlr86xn8y7g1" path="res://assets/tempShip.png" id="1_2bptq"]
+[ext_resource type="Script" path="res://scripts/ship.gd" id="1_pubur"]
+[ext_resource type="PackedScene" uid="uid://ceohvi0bhju6k" path="res://scenes/thruster.tscn" id="3_3yb2i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m8agi"]
+size = Vector2(91, 44.1633)
+
+[node name="Ship" type="RigidBody2D"]
+gravity_scale = 0.0
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("1_pubur")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = -3.14159
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_2bptq")
+
+[node name="Thruster" parent="." instance=ExtResource("3_3yb2i")]
+position = Vector2(0, 25)
+scale = Vector2(0.6, 0.6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 1.28001)
+scale = Vector2(0.541211, 1.10563)
+shape = SubResource("RectangleShape2D_m8agi")
+
+[node name="PickupArea" type="Area2D" parent="." groups=["ship_parts"]]
+
+[node name="PickupCollider" type="CollisionShape2D" parent="PickupArea"]
+position = Vector2(0.5, 1.28001)
+scale = Vector2(0.446805, 0.772704)
+shape = SubResource("RectangleShape2D_m8agi")
+debug_color = Color(4.33177e-07, 0.636687, 0.40175, 0.42)
+
+[connection signal="thrusting" from="Thruster" to="." method="_on_thruster_thrusting"]
+[connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]

@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvkjmpp5fbivk"]
+
+[ext_resource type="Script" path="res://scripts/debree.gd" id="1_hnvc7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_agqq6"]
+radius = 27.0
+
+[node name="DebreeCircle" type="Area2D" groups=["ship_parts"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_hnvc7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_agqq6")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

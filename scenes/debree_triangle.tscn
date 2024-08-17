@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba0ifi3ar1pwm"]
+
+[ext_resource type="Script" path="res://scripts/debree.gd" id="1_bbcg1"]
+
+[node name="DebreeTriangle" type="Area2D" groups=["ship_parts"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_bbcg1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(1, -35)
+polygon = PackedVector2Array(35, 58, 0, 0, -35, 58)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

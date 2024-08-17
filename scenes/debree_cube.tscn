@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://btrs1yb00nrv2"]
+
+[ext_resource type="Script" path="res://scripts/debree.gd" id="1_eb3ef"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k23po"]
+size = Vector2(96.1665, 97)
+
+[node name="DebreeCube" type="Area2D" groups=["ship_parts"]]
+collision_layer = 4
+collision_mask = 5
+script = ExtResource("1_eb3ef")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_k23po")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
