@@ -64,5 +64,15 @@ libraries = {
 "": SubResource("AnimationLibrary_5wwuf")
 }
 
+[node name="Pill" type="Sprite2D" parent="."]
+show_behind_parent = true
+top_level = true
+z_index = -1
+position = Vector2(0, 4)
+scale = Vector2(2, 2)
+texture = ExtResource("2_q41c0")
+region_enabled = true
+region_rect = Rect2(4, 14, 40, 19)
+
 [connection signal="thrusting" from="Thruster" to="." method="_on_thruster_thrusting"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]

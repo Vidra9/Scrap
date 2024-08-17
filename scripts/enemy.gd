@@ -13,7 +13,6 @@ func _process(delta: float) -> void:
 func explode():
 	queue_free()
 
-
 func _on_shooting_timer_timeout() -> void:
 	var bullet = bullet_scene.instantiate()
 	bullet.position = position

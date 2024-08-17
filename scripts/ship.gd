@@ -1,12 +1,15 @@
 extends RigidBody2D
 
-@export var rotation_speed = 7000
+@export var max_rotation_speed = 7000
+var rotation_speed = 7000
+var min_rotation_speed
 @export var thrustForce = 200
 @export var mu_moving = 0.5
 @export var mu_static = 0.8  # friction coefficients
 
 @export var bullet_scene: PackedScene
 @export var health: int = 3
+@export var pill_rotation_speed = 400
 
 var thrusting = 0
 var rotation_dir = 0
@@ -16,8 +19,11 @@ var applied_forces = Vector2.ZERO
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.debree_list.append(self)
+	min_rotation_speed = rotation_speed * 0.1
+	Global.update_num_of_attached_debree.connect(update_rotation_speed)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
+	$Pill.global_position = global_position
 	if Input.is_action_just_pressed("shoot"):
 		var bullet = bullet_scene.instantiate()
 		bullet.position = position
@@ -25,28 +31,28 @@ func _process(_delta: float) -> void:
 		bullet.linear_velocity = Vector2(sin(rotation), -cos(rotation)) * bullet.bullet_speed
 		Global.bullets.append(bullet)
 		Global.main_scene.add_child(bullet)
+	if thrusting:
+		$Pill.global_rotation_degrees += pill_rotation_speed * delta
 
 func _physics_process(_delta: float) -> void:
 	var rotating = false
 	var thrust = Vector2.ZERO
 	if Input.is_action_pressed("left"):
-		#rotate(deg_to_rad(-rotation_speed * delta)) # Rotation is clockwise by deafult (rad bullshit)
 		rotation_dir = -1
 		rotating = true
 	if Input.is_action_pressed("right"):
-		#rotate(deg_to_rad(rotation_speed * delta))
 		rotation_dir = 1
 		rotating = true
 		
 	if thrusting != 0:
 		thrust = Vector2(sin(rotation), -cos(rotation)) * thrustForce * thrusting
 		
-	#var rotation_dir = Vector2(sin(rotation), -cos(rotation))
 	constant_force = thrust
 	if rotating:
 		constant_torque = rotation_dir * rotation_speed
 	else:
 		constant_torque = 0
+	
 
 func _on_thruster_thrusting(thrust_direcion: Variant) -> void:
 	thrusting = thrust_direcion # Replace with function body.
@@ -64,3 +70,6 @@ func take_damage():
 	if health == 0:
 		Global.player = null
 		queue_free()
+
+func update_rotation_speed():
+	rotation_speed = max_rotation_speed - (Global.debree_list.size() * Global.rotation_speed_change)
