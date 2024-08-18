@@ -1,12 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://biyun1053onpb"]
+[gd_scene load_steps=10 format=3 uid="uid://biyun1053onpb"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_ekicg"]
 [ext_resource type="PackedScene" uid="uid://cen0q4ur46sr5" path="res://scenes/player.tscn" id="1_hp3tu"]
-[ext_resource type="PackedScene" uid="uid://btrs1yb00nrv2" path="res://scenes/debree_cube.tscn" id="3_d3u0x"]
+[ext_resource type="PackedScene" uid="uid://btrs1yb00nrv2" path="res://scenes/debree/debree_cube.tscn" id="3_d3u0x"]
 [ext_resource type="PackedScene" uid="uid://i7niu5h5meik" path="res://scenes/hud.tscn" id="4_cmv3r"]
-[ext_resource type="PackedScene" uid="uid://ba0ifi3ar1pwm" path="res://scenes/debree_triangle.tscn" id="5_sjsso"]
-[ext_resource type="PackedScene" uid="uid://dvkjmpp5fbivk" path="res://scenes/debree_circle.tscn" id="6_pm70o"]
-[ext_resource type="PackedScene" uid="uid://ddyyrs7mrup5c" path="res://scenes/enemy.tscn" id="7_x5lo1"]
+[ext_resource type="PackedScene" uid="uid://cxn4ieotiqnef" path="res://scenes/enemies/shooting_enemy.tscn" id="4_nn056"]
+[ext_resource type="PackedScene" uid="uid://ba0ifi3ar1pwm" path="res://scenes/debree/debree_triangle.tscn" id="5_sjsso"]
+[ext_resource type="PackedScene" uid="uid://dvkjmpp5fbivk" path="res://scenes/debree/debree_circle.tscn" id="6_pm70o"]
+[ext_resource type="PackedScene" uid="uid://bm3di23c6igmh" path="res://scenes/enemies/chasing_enemy.tscn" id="7_x5lo1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_duuom"]
 size = Vector2(3811, 2090)
@@ -14,18 +15,11 @@ size = Vector2(3811, 2090)
 [node name="main" type="Node2D"]
 script = ExtResource("1_ekicg")
 player_scene = ExtResource("1_hp3tu")
-
-[node name="Debree" parent="." instance=ExtResource("3_d3u0x")]
-position = Vector2(1290, 559)
-
-[node name="Debree2" parent="." instance=ExtResource("3_d3u0x")]
-position = Vector2(1218, 788)
+chasing_enemy_scene = ExtResource("7_x5lo1")
+shooter_enemy_scene = ExtResource("4_nn056")
 
 [node name="SpawnPosition" type="Marker2D" parent="."]
 position = Vector2(1893, 1034)
-
-[node name="Debree3" parent="." instance=ExtResource("3_d3u0x")]
-position = Vector2(1456, 912)
 
 [node name="PlayableArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -45,8 +39,8 @@ position = Vector2(1611, 527)
 [node name="DebreeCircle" parent="." instance=ExtResource("6_pm70o")]
 position = Vector2(1878, 624)
 
-[node name="Enemy" parent="." instance=ExtResource("7_x5lo1")]
-position = Vector2(2245, 916)
+[node name="DebreeCube" parent="." instance=ExtResource("3_d3u0x")]
+position = Vector2(1788, 954)
 
 [connection signal="area_exited" from="PlayableArea" to="." method="_on_playable_area_area_exited"]
 [connection signal="body_entered" from="PlayableArea" to="." method="_on_playable_area_body_entered"]

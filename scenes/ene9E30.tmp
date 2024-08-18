@@ -1,0 +1,49 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddyyrs7mrup5c"]
+
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_a7ve5"]
+[ext_resource type="PackedScene" uid="uid://bwltsypi3u0ij" path="res://scenes/bullet.tscn" id="2_rhao5"]
+[ext_resource type="PackedScene" uid="uid://btrs1yb00nrv2" path="res://scenes/debree_cube.tscn" id="3_te0jj"]
+[ext_resource type="PackedScene" uid="uid://dvkjmpp5fbivk" path="res://scenes/debree_circle.tscn" id="4_0rkab"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_u4opb"]
+radius = 36.0
+height = 122.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_143kh"]
+radius = 1304.0
+height = 2608.0
+
+[node name="Enemy" type="RigidBody2D" groups=["enemy"]]
+collision_layer = 2
+collision_mask = 5
+gravity_scale = 0.0
+script = ExtResource("1_a7ve5")
+bullet_scene = ExtResource("2_rhao5")
+debree_scenes = Array[PackedScene]([ExtResource("3_te0jj"), ExtResource("4_0rkab")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_u4opb")
+debug_color = Color(0.959308, 9.62615e-08, 0.522344, 0.42)
+
+[node name="ShootingTimer" type="Timer" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CapsuleShape2D_u4opb")
+debug_color = Color(0.959308, 9.62615e-08, 0.522344, 0.42)
+
+[node name="SearchArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SearchArea"]
+shape = SubResource("CapsuleShape2D_143kh")
+debug_color = Color(0, 0.639216, 0.360784, 0.223529)
+
+[node name="SleepingTimer" type="Timer" parent="."]
+
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_shooting_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_body_entered"]
+[connection signal="area_entered" from="SearchArea" to="." method="_on_search_area_area_entered"]

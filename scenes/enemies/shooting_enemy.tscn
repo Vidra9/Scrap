@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxn4ieotiqnef"]
+
+[ext_resource type="Script" path="res://scripts/enemies/shooter_enemy.gd" id="1_83fsu"]
+[ext_resource type="Texture2D" uid="uid://c8g4leq8qu4ow" path="res://assets/enemies/shooter_enemy.png" id="1_rab41"]
+[ext_resource type="PackedScene" uid="uid://bwltsypi3u0ij" path="res://scenes/bullet.tscn" id="2_s01b8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_isshy"]
+radius = 256.07
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_b82j2"]
+radius = 101.005
+
+[node name="ShootingEnemy" type="RigidBody2D" groups=["enemy"]]
+gravity_scale = 0.0
+script = ExtResource("1_83fsu")
+bullet_scene = ExtResource("2_s01b8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-6, -35)
+polygon = PackedVector2Array(0, -1, 11, -1, 13, 20, 21, 31, 27, 22, 32, 30, 33, 45, 20, 58, 13, 51, 0, 51, -6, 59, -22, 44, -22, 29, -15, 22, -9, 31, -1, 20)
+
+[node name="ShootingRange" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShootingRange"]
+shape = SubResource("CircleShape2D_isshy")
+debug_color = Color(0.985912, 0, 0.328993, 0.42)
+
+[node name="FleeArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FleeArea"]
+shape = SubResource("CircleShape2D_b82j2")
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemy"]]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+position = Vector2(-6, -36)
+polygon = PackedVector2Array(0, -1, 11, -1, 13, 20, 21, 31, 27, 22, 32, 30, 33, 45, 20, 58, 13, 51, 0, 51, -6, 59, -22, 44, -22, 29, -15, 22, -9, 31, -1, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("1_rab41")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="ShootingTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="ShootingRange" to="." method="_on_shooting_range_body_entered"]
+[connection signal="body_exited" from="ShootingRange" to="." method="_on_shooting_range_body_exited"]
+[connection signal="body_entered" from="FleeArea" to="." method="_on_flee_area_body_entered"]
+[connection signal="body_exited" from="FleeArea" to="." method="_on_flee_area_body_exited"]
+[connection signal="timeout" from="ShootingTimer" to="." method="_on_shooting_timer_timeout"]

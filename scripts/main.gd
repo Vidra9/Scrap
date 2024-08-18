@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var player_scene : PackedScene
+@export var chasing_enemy_scene : PackedScene
+@export var shooter_enemy_scene : PackedScene
 @export var return_force_strength: float = 250
 var player_out_of_map = false
 
@@ -12,6 +14,21 @@ func _ready() -> void:
 	Global.player.scale = Vector2(0.2, 0.2)
 	add_child(Global.player)
 	Global.health_changed.emit()
+	
+	#Enemy
+	var enemy = chasing_enemy_scene.instantiate()
+	enemy.position = Vector2(2245, 916)
+	enemy.call("look_at", Global.player.global_position)
+	enemy.global_rotation += PI/2
+	#enemy.call("set_gun", false) #to inst with gun
+	add_child(enemy)
+	
+	var shooting_enemy = shooter_enemy_scene.instantiate()
+	shooting_enemy.position = Vector2(1620, 980)
+	shooting_enemy.call("look_at", Global.player.global_position)
+	shooting_enemy.global_rotation += PI/2
+	#enemy.call("set_gun", false) #to inst with gun
+	add_child(shooting_enemy)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta: float) -> void:

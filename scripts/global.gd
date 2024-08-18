@@ -9,3 +9,5 @@ var rotation_speed_change = 1000
 signal debree_pickup_attempt
 signal health_changed
 signal update_num_of_attached_debree
+signal start_game
+signal game_over

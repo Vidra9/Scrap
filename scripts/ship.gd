@@ -29,8 +29,11 @@ func _process(delta: float) -> void:
 		bullet.position = position
 		bullet.rotation = rotation
 		bullet.linear_velocity = Vector2(sin(rotation), -cos(rotation)) * bullet.bullet_speed
+		bullet.call("set_is_friendly", true)
 		Global.bullets.append(bullet)
 		Global.main_scene.add_child(bullet)
+	
+	# TODO: fix back rotations
 	if thrusting:
 		$Pill.global_rotation_degrees += pill_rotation_speed * delta
 

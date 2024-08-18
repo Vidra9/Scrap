@@ -4,6 +4,10 @@ var is_attached_to_player = false
 var nodes_leading_to_ship : Array
 var other_nodes : Array
 var other_to_remove: Array
+@export var is_gun_variation: bool = false
+
+func set_variant(variant: String):
+	$AnimationPlayer.play(variant)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -55,6 +59,8 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.is_in_group("ship_parts"):
 		if Global.debree_list.find(self) == -1:
 			call_deferred("reparent", Global.player)
+			set_collision_mask_value(1, true)
+			set_collision_layer_value(1, true)
 			Global.debree_list.append(self)
 			Global.update_num_of_attached_debree.emit()
 			if nodes_leading_to_ship.find(area) == -1:
@@ -66,3 +72,8 @@ func _on_mouse_entered() -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		delete()
 		
+func set_is_gun_variation(gun_variation):
+	is_gun_variation = gun_variation
+
+func is_attached():
+	return nodes_leading_to_ship.size() > 0
