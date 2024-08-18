@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://bwltsypi3u0ij"]
+[gd_scene load_steps=6 format=3 uid="uid://bwltsypi3u0ij"]
 
 [ext_resource type="Script" path="res://scripts/bullet.gd" id="1_b0y8y"]
 [ext_resource type="Texture2D" uid="uid://bgqn1sfvlaqbc" path="res://assets/friendly_fire.png" id="2_g3eji"]
 [ext_resource type="Texture2D" uid="uid://dkdmmyc8bf1cb" path="res://assets/enemy_fire.png" id="3_0hx3l"]
+[ext_resource type="AudioStream" uid="uid://0002y2ej8411" path="res://assets/sounds/laserPew.mp3" id="4_qgq8f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8tjbl"]
 radius = 3.0
@@ -29,6 +30,10 @@ shape = SubResource("CapsuleShape2D_8tjbl")
 texture_filter = 1
 scale = Vector2(1.48, 3.56)
 texture = ExtResource("2_g3eji")
+
+[node name="BulletAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_qgq8f")
+autoplay = true
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

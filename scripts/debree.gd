@@ -5,6 +5,9 @@ var nodes_leading_to_ship : Array
 var other_nodes : Array
 var other_to_remove: Array
 @export var is_gun_variation: bool = false
+var gun_scene = preload("res://scenes/gun_attachment.tscn")
+var gun_attachement
+var explosionScene = preload("res://scenes/explosion.tscn")
 
 func set_variant(variant: String):
 	$AnimationPlayer.play(variant)
@@ -13,6 +16,7 @@ func set_variant(variant: String):
 func _ready() -> void:
 	nodes_leading_to_ship = []
 	other_nodes = []
+	Global.game_over.connect(delete)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -53,10 +57,17 @@ func delete():
 			node.call("delete_other_node", self)
 	
 	Global.debree_list.erase(self)
+	
+	Global.play_explosion.emit(global_position)
+	var explosion = explosionScene.instantiate()
+	explosion.global_position = global_position
+	explosion.get_node("AnimatedSprite2D").autoplay = "default"
+	Global.main_scene.call_deferred("add_child", explosion)
 	queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("ship_parts"):
+	if (Global.player and area == Global.player.get_node("PickupArea")) ||\
+		(area.is_in_group("ship_parts") and area.call("is_attached")):
 		if Global.debree_list.find(self) == -1:
 			call_deferred("reparent", Global.player)
 			set_collision_mask_value(1, true)
@@ -67,6 +78,8 @@ func _on_area_entered(area: Area2D) -> void:
 				nodes_leading_to_ship.append(area) 
 			if area != Global.player.get_node("PickupArea"):
 				area.call("add_other_node", self)
+			if is_gun_variation:
+				Global.attach_gun.emit(gun_attachement)
 
 func _on_mouse_entered() -> void:
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -74,6 +87,12 @@ func _on_mouse_entered() -> void:
 		
 func set_is_gun_variation(gun_variation):
 	is_gun_variation = gun_variation
+	if is_gun_variation:
+		gun_attachement = gun_scene.instantiate()
+		gun_attachement.call("set_shoot_origin", self)
+		#gun_attachement.position = position
+		#gun_attachement.rotation = rotation
+		add_child(gun_attachement)
 
 func is_attached():
 	return nodes_leading_to_ship.size() > 0

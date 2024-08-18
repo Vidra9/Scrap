@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://bb4i6h65gnemy"]
+[gd_scene load_steps=4 format=3 uid="uid://bb4i6h65gnemy"]
 
 [ext_resource type="Script" path="res://scripts/gun_attachment.gd" id="1_1iaje"]
+[ext_resource type="Texture2D" uid="uid://d3vrc0bhng6wh" path="res://assets/gun.png" id="1_ay6s4"]
+[ext_resource type="PackedScene" uid="uid://bwltsypi3u0ij" path="res://scenes/bullet.tscn" id="3_y3rkh"]
 
-[node name="gun_attachment" type="Sprite2D"]
+[node name="gun_attachment" type="Node2D"]
+z_index = 1
+texture_filter = 1
 script = ExtResource("1_1iaje")
+bullet_scene = ExtResource("3_y3rkh")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = ExtResource("1_ay6s4")

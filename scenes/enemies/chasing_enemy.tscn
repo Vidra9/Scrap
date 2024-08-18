@@ -45,6 +45,7 @@ debug_color = Color(0, 0.639216, 0.360784, 0.223529)
 wait_time = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
 scale = Vector2(2.5, 2.5)
 texture = ExtResource("4_wbugu")
 

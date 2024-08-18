@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cen0q4ur46sr5"]
+[gd_scene load_steps=12 format=3 uid="uid://cen0q4ur46sr5"]
 
 [ext_resource type="Script" path="res://scripts/ship.gd" id="1_pubur"]
 [ext_resource type="PackedScene" uid="uid://bwltsypi3u0ij" path="res://scenes/bullet.tscn" id="2_2r2ub"]
-[ext_resource type="Texture2D" uid="uid://bhemuefmlx6gw" path="res://assets/player.png" id="2_q41c0"]
+[ext_resource type="Texture2D" uid="uid://byoyng6oq3npq" path="res://assets/player.png" id="2_q41c0"]
 [ext_resource type="PackedScene" uid="uid://ceohvi0bhju6k" path="res://scenes/thruster.tscn" id="3_3yb2i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jt2bm"]
@@ -11,12 +11,72 @@ radius = 22.0743
 [sub_resource type="CircleShape2D" id="CircleShape2D_daxnw"]
 radius = 17.5148
 
-[sub_resource type="Animation" id="Animation_30yv3"]
-resource_name = "default"
+[sub_resource type="Animation" id="Animation_x1b73"]
+resource_name = "hp_3"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
+
+[sub_resource type="Animation" id="Animation_gv21b"]
+resource_name = "hp_2"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_c3jq6"]
+resource_name = "hp_1"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_irs3r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [2]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5wwuf"]
 _data = {
-"default": SubResource("Animation_30yv3")
+"RESET": SubResource("Animation_irs3r"),
+"hp_1": SubResource("Animation_c3jq6"),
+"hp_2": SubResource("Animation_gv21b"),
+"hp_3": SubResource("Animation_x1b73")
 }
 
 [node name="Ship" type="RigidBody2D"]
@@ -34,9 +94,8 @@ bullet_scene = ExtResource("2_2r2ub")
 texture_filter = 1
 scale = Vector2(2, 2)
 texture = ExtResource("2_q41c0")
-hframes = 3
-vframes = 2
-region_enabled = true
+hframes = 4
+frame = 2
 region_rect = Rect2(53, 8, 67.365, 55.43)
 metadata/_edit_lock_ = true
 
@@ -51,6 +110,7 @@ shape = SubResource("CircleShape2D_jt2bm")
 metadata/_edit_lock_ = true
 
 [node name="PickupArea" type="Area2D" parent="." groups=["ship_parts"]]
+visible = false
 collision_layer = 9
 collision_mask = 0
 
@@ -68,11 +128,16 @@ libraries = {
 show_behind_parent = true
 top_level = true
 z_index = -1
+texture_filter = 1
 position = Vector2(0, 4)
-scale = Vector2(2, 2)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("2_q41c0")
-region_enabled = true
+hframes = 4
+frame = 3
 region_rect = Rect2(4, 14, 40, 19)
+
+[node name="ShootCooldown" type="Timer" parent="."]
+wait_time = 0.33
 
 [connection signal="thrusting" from="Thruster" to="." method="_on_thruster_thrusting"]
 [connection signal="area_entered" from="PickupArea" to="." method="_on_pickup_area_area_entered"]

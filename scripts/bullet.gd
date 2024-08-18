@@ -1,16 +1,21 @@
 extends RigidBody2D
 
-@export var bullet_speed = 700
+@export var friendly_bullet_speed = 850
+@export var enemy_bullet_speed = 400
 @export var friendlyTexture: CompressedTexture2D
 @export var hostileTexture: CompressedTexture2D
 var is_friendly: bool
+var bullet_speed
 
 func set_is_friendly(friendly):
 	is_friendly = friendly
 	if is_friendly:
 		$Sprite2D.texture = friendlyTexture
+		bullet_speed = friendly_bullet_speed
 	else:
 		$Sprite2D.texture = hostileTexture
+		bullet_speed = enemy_bullet_speed
+		$BulletAudio.volume_db = -4
 
 func _on_area_entered(area: Area2D) -> void:
 	if is_friendly:

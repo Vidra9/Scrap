@@ -10,12 +10,10 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if Input.is_action_pressed("thrust"):
-		is_thrusting = true
-		thrusting.emit(1)
-	if Input.is_action_pressed("reverse"):
-		is_thrusting = true
-		thrusting.emit(-1)
-	if Input.is_action_just_released("thrust") || Input.is_action_just_released("reverse"):
+	
+	if Input.is_action_just_released("thrust") || \
+	Input.is_action_just_released("reverse") || \
+	Input.is_action_just_released("left") || \
+	Input.is_action_just_released("right"):
 		is_thrusting = false
 		thrusting.emit(0)
