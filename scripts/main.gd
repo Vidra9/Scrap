@@ -88,9 +88,10 @@ func _physics_process(delta: float) -> void:
 		Global.player.call_deferred("add_extra_constant_force", return_vector)
 	
 	if Global.playing and !$AudioStreamPlayer2D.playing:
-		$AudioStreamPlayer2D.global_position = Global.player.global_position
 		$AudioStreamPlayer2D.play()
-		pass
+		
+	if $AudioStreamPlayer2D.playing:
+		$AudioStreamPlayer2D.global_position = Global.player.global_position
 
 func createShootingEnemy(pos: Vector2):
 	var shooting_enemy = shooter_enemy_scene.instantiate()

@@ -57,6 +57,8 @@ func delete():
 			node.call("delete_other_node", self)
 	
 	Global.debree_list.erase(self)
+	if gun_attachement != null:
+		Global.player.call_deferred("remove_gun", gun_attachement)
 	
 	Global.play_explosion.emit(global_position)
 	var explosion = explosionScene.instantiate()

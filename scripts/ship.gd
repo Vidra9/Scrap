@@ -129,4 +129,6 @@ func shoot():
 func attach_gun(gun: Object):
 	if attached_guns.find(gun) == -1:
 		attached_guns.append(gun)
-	pass
+	
+func remove_gun(gun: Object):
+	attached_guns.erase(gun)
